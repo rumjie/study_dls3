@@ -10,4 +10,7 @@ x=Variable(data)
 print(x.data)
 #python Chapter1/step01.py -> 1.0
 
+x.data=np.array(2.0) #수정 가능
+print(x.data)
+
 #x는 데이터를 담은 상자
