@@ -13,4 +13,7 @@ print(x.data)
 x.data=np.array(2.0) #수정 가능
 print(x.data)
 
-#x는 데이터를 담은 상자
+# x는 데이터를 담은 상자
+# result:
+# 1.0
+# 2.0

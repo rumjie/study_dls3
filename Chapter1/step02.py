@@ -23,4 +23,8 @@ x = Variable(np.array(3))
 f = Square()
 y = f(x)
 print(type(y))
-print(y.data)      
+print(y.data)     
+
+# result
+# <class '__main__.Variable'>
+# 9
