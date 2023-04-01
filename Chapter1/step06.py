@@ -2,7 +2,8 @@ import numpy as np
 
 class Variable:
     def __init__(self, data):
-        self.data=data
+        self.data = data
+        self.grad = None #미분값 gradient 저장
 
 # function class 구현
 class Function:
@@ -10,8 +11,13 @@ class Function:
         x = input.data
         y = self.forward(x)
         output = Variable(y)
+        self.input = input #입력 변수 보관
         return output
+
     def forward(self,x):
+        raise NotImplementedError()
+    
+    def backward(self, gy):
         raise NotImplementedError()
 
 # function 클래스를 상속, 입력값을 제곱하는 클래스
@@ -46,7 +52,4 @@ def g(x):
     C = Square()
     return C(B(A(x)))
 
-x = Variable(np.array(0.5))
-dy = numerical_diff(g, x)
-print(dy)
-# result: 3.2974426293330694
+# 

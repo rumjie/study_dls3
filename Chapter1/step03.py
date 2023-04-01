@@ -33,3 +33,5 @@ a = A(x)
 b = B(a)
 y = C(b)
 print(y.data)
+
+# result: 1.648721270700128
