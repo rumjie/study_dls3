@@ -116,4 +116,5 @@ y = C(b)
 y.grad = np.array(1.0)
 y.backward()
 print(x.grad)
+# result: 3.297442541400256
 
