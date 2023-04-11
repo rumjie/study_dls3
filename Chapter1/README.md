@@ -47,4 +47,14 @@
 - backward 메서드 간소화
     - grad가 None일때 자동으로 미분값을 생성하도록 예외 코드 작성
     - self.data와 데이터 타입이 같은 ndarray 인스턴스를 생성함
-- ndarray만 취급
+- ndarray만 취급 (제곱에 대한 array화도 포함)
+
+## 10단계. 테스트
+딥러닝 프레임워크의 테스트 방법
+- 이름이 test로 시작하는 메서드를 만들고 그 안에 테스트할 내용 적기
+- 함수의 출력이 기댓값과 같은지 확인하기 위해 assertEqual 메서드 사용 (assertGreater, assertTrue etc..)
+- test를 실행하는 두 가지 방법
+    - `python -m unittest file.py`
+    - `unittest.main()` 코드를 끝 줄에 추가하고 파이썬 파일 실행
+- `python -m unittest discover tests` 로 'test'디렉토리의 테스트 파일을 한꺼번에 실행 가능
+- CI/CD를 유지하기 위한 도구
