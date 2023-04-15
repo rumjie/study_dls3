@@ -62,8 +62,6 @@ class Variable:
 class Function:
     def __call__(self, *inputs):  # *표를 붙이면 임의 개수의 인수(가변 길이)를 넘겨 함수 호출 가능
         xs = [x.data for x in inputs]  # list comprehension
-        ys = self.forward(xs)
-
         ys = self.forward(*xs)  # unpack
         if not isinstance(ys, tuple):  # tuple이 아닌 경우
             ys = (ys,)
@@ -84,11 +82,10 @@ class Function:
 
 
 # Add class
-class Add(Function):  # 반환 값이 list or tuple이어야 함
-    def forward(self, xs):
-        x0, x1 = xs
+class Add(Function):  # 변수를 직접 받아 변수로 돌려줌
+    def forward(self, x0, x1):
         y = x0 + x1
-        return (y,)
+        return y
 
 
 # function 클래스를 상속, 입력값을 제곱하는 클래스
