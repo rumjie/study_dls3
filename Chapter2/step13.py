@@ -162,7 +162,9 @@ y = Variable(np.array(3.0))
 z = add(square(x), square(y))
 z.backward()
 print(z.data, x.grad, y.grad)
+print(type(z.backward()), type(z.grad))
 # result: 13.0 4.0 6.0
+# 참고 - z.backward() 는 Nonetype, z.grad는 ndarray
 
 #### test ####
 unittest.main()  # python Chapter1/step10.py 만 실행해서 테스트 수행하기
