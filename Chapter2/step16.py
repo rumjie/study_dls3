@@ -40,9 +40,11 @@ class Variable:
         self.data = data
         self.grad = None  # 미분값 gradient 저장
         self.creator = None  # creator of variable
+        self.generation = 0 #세대 수를 기록하는 변수
 
     def set_creator(self, func):
         self.creator = func  # 메서드 추가
+        self.generation = func.generation +1 # 부모 함수의 세대보다 1 큰 수를 세대로 기록
 
     def backward(self):
         if self.grad is None:
@@ -77,6 +79,8 @@ class Function:
         if not isinstance(ys, tuple):  # tuple이 아닌 경우
             ys = (ys,)
         outputs = [Variable(as_array(y)) for y in ys]  # output 또한 리스트로 변경
+
+        self.generation = max([x.generation for x in inputs]) # setting generation
 
         for output in outputs:
             output.set_creator(self)  # 출력 변수들에 창조자 설정
