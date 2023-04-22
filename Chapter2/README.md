@@ -28,3 +28,9 @@
 - step14의 Variable class는 funcs리스트의 끝에서 꺼내어 처리함
 - 이 경우 두 갈래로 나누어진 함수는 역전파를 두 번 계산하게 됨 
 - 이 문제를 해결하기 위해 함수의 우선순위를 설정
+
+## 16단계. 복잡한 계산 그래프 (구현 편)
+- Variable class / Function class에 generation 변수 추가
+- 순전파 시 모든 변수와 함수에 세대가 설정됨
+- 세대를 정렬한 후 pop 메서드로 세대가 큰 함수부터 얻을 수 있음
+- Variable class의 backward 메서드에 add_func 함수 정의
