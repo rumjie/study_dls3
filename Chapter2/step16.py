@@ -40,17 +40,27 @@ class Variable:
         self.data = data
         self.grad = None  # 미분값 gradient 저장
         self.creator = None  # creator of variable
-        self.generation = 0 #세대 수를 기록하는 변수
+        self.generation = 0  # 세대 수를 기록하는 변수
 
     def set_creator(self, func):
         self.creator = func  # 메서드 추가
-        self.generation = func.generation +1 # 부모 함수의 세대보다 1 큰 수를 세대로 기록
+        self.generation = func.generation + 1  # 부모 함수의 세대보다 1 큰 수를 세대로 기록
 
     def backward(self):
         if self.grad is None:
             self.grad = np.ones_like(self.data)  # backward 메서드 간소화 - y.grad 지정 생략 가능
 
-        funcs = [self.creator]  # step07과 다른 부분 - 반복문으로 구현
+        funcs = []  # list
+        seen_set = set()
+
+        def add_funcs(f):  # backward 메서드의 중첩 함수
+            if f not in seen_set:
+                funcs.append(f)
+                seen_set.add(f)  # 집합을 이용해 중복 추가 방지
+                funcs.sort(key=lambda x: x.generation)  # 함수를 세대 순으로 정렬
+
+        add_funcs(self.creator)
+
         while funcs:
             f = funcs.pop()  # 함수를 가져옴
             gys = [output.grad for output in f.outputs]  # 미분값들을 리스트에 담아서
@@ -65,7 +75,7 @@ class Variable:
                     x.grad = x.grad + gx  # 전달된 미분값을 더함
 
                 if x.creator is not None:
-                    funcs.append(x.creator)
+                    add_funcs(x.creator)
 
     def cleargrad(self):
         self.grad = None
@@ -80,7 +90,7 @@ class Function:
             ys = (ys,)
         outputs = [Variable(as_array(y)) for y in ys]  # output 또한 리스트로 변경
 
-        self.generation = max([x.generation for x in inputs]) # setting generation
+        self.generation = max([x.generation for x in inputs])  # setting generation
 
         for output in outputs:
             output.set_creator(self)  # 출력 변수들에 창조자 설정
@@ -166,22 +176,30 @@ def add(x0, x1):
     return Add()(x0, x1)
 
 
-# calculation
-x = Variable(np.array(3.0))
-y = add(x, x)
+# dummy
+generations = [2, 0, 1, 4, 2]
+funcs = []
+for g in generations:  # funcs list에 더미 함수 추가
+    f = Function()
+    f.generation = g
+    funcs.append(f)
 
-print("y", y.data)
+funcs.sort(key=lambda x: x.generation)  # 오름차순 정렬
+print([f.generation for f in funcs])  # 0, 1, 2, 2, 4
+f = funcs.pop()
+print(f.generation)  # 4
 
+# print
+
+x = Variable(np.array(2.0))
+a = square(x)
+y = add(square(a), square(a))
 y.backward()
-print("x.grad", x.grad)
 
-# result :y 6.0 / x.grad 1.0 -> x.grad by line 63
-# 미분값은 2
+print(y.data)
+print(x.grad)
 
-x.cleargrad()
-y = add(add(x, x), x)
-y.backward()
-print(x.grad)  # 5.0 -> 3.0
+# result : 32.0, 64.0
 
 #### test ####
 unittest.main()  # python Chapter1/step10.py 만 실행해서 테스트 수행하기
