@@ -62,3 +62,11 @@
 - contextlib 모듈 사용 : yield 전에 전처리 로직, yield 다음에 후처리 로직 작성
 - getattr, setattr 함수에 모드 이름을 넘겨 Config 클래스 속성 설정
 - no_grad() 함수를 설정해 순전파만 사용할 경우의 설정값을 넘겨주는 함수 작성
+
+## 19단계. 변수 사용성 개선
+- 변수에 이름 붙이기 - Variable class에 인스턴스 변수 name 추가 
+- 목표: Variable 인스턴스를 ndarray 인스턴스처럼 보이게 하기
+- ndarray의 shape, dimension, size, data type을 나타내는 인스턴스 변수 추가
+- len: 첫 번째 차원의 원소 수 반환
+    - `__init__`, `__len__` 처럼 특별한 의미를 지닌 메서드는 밑줄 두개로 감싼 이름 사용
+- print: 출력하고자 하는 문자열이 variable임을 알려주면서 프린트시키도록 정의
