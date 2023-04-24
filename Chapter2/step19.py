@@ -230,10 +230,16 @@ def no_grad():
     return using_config("enable_backprop", False)
 
 
-x0 = Variable(np.array(2.0))
+x = Variable(np.array([1, 2, 3]))
+print(x)
+# result: variable([1 2 3])
 
-y = square(x0)
-print(y.data)
-
+x = Variable(None)
+print(x)
+# result:variable(None)
+x = Variable(np.array([[1, 2, 3], [4, 5, 6]]))
+print(x)
+# result:variable([[1 2 3]
+# [4 5 6]])
 #### test ####
 unittest.main()  # python Chapter1/step10.py 만 실행해서 테스트 수행하기
