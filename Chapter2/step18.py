@@ -105,7 +105,7 @@ class Function:
                 weakref.ref(output) for output in outputs
             ]  # self.outputs가 대상을 약한 참조로 가리키게 변경
 
-            return outputs if len(outputs) > 1 else outputs[0]  # 리스트에 한 개만 들어있다면 그것만 리턴
+        return outputs if len(outputs) > 1 else outputs[0]  # 리스트에 한 개만 들어있다면 그것만 리턴
 
     def forward(self, xs):
         raise NotImplementedError()
