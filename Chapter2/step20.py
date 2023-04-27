@@ -141,7 +141,7 @@ class Variable:
 
 # def __mul__ 대신
 Variable.__mul__ = mul  # 함수도 객체이므로 함수 자체를 할당 가능
-Variable.__add__ = add
+Variable.__add__ = add  # mul 과 add 의 순서를 Variable 클래스 선언 이전으로 당겨줌
 
 
 # function class 구현
@@ -163,7 +163,7 @@ class Function:
                 weakref.ref(output) for output in outputs
             ]  # self.outputs가 대상을 약한 참조로 가리키게 변경
 
-            return outputs if len(outputs) > 1 else outputs[0]  # 리스트에 한 개만 들어있다면 그것만 리턴
+        return outputs if len(outputs) > 1 else outputs[0]  # 리스트에 한 개만 들어있다면 그것만 리턴
 
     def forward(self, xs):
         raise NotImplementedError()
