@@ -85,3 +85,11 @@
 - float 혹은 int와 연산: `def add` function에 as_array 코드 추가
 - 입력하는 인수의 순서 바뀔 경우에도 가능하도록 `Variable.__radd__`, `Variable.__rmul__` 에 각 연산함수 대입
 - 연산자 우선순위 지정: Variable 인스턴스의 연산 우선 순위를 ndarray 연산보다 높임
+
+## 22단계. 연산자 오버로드(3)
+- neg, sub, rsub, truediv, rtruediv, pow 연산자 추가
+- neg: 부호 변환 연산자, 단항 연산자이므로 인수도 하나뿐
+- sub, rsub: 뺄셈
+- truediv, rtruediv: 나눗셈
+- pow: 거듭제곱
+- 사칙연산 활용가능! 
