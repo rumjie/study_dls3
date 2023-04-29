@@ -47,10 +47,12 @@
     - 더 이상 객체가 필요 없어지면 즉시 메모리에서 삭제 
     e.g 대입 연산자를 사용할 때/ 함수에 인수로 전달할 때/컨테이너 타입 객체에 추가할 때 (리스트, 튜플, 클래스 등)
     - 예외의 경우: 순환 참조 (DeZero의 Function <-> output Variable)
-        - weakref로 해결 가능 -> <b> step17.py 코드에 반영 </b>
+        - weakref로 해결 가능 -> 
+        <b> step17.py 코드에 반영 </b>
 ### GC
     - 메모리가 부족해지는 시점에 파이썬 인터프리터에 의해 자동으로 호출
-    - 명시적인 호출 가능 `gc.collect()` 
+    - 명시적인 호출 가능 
+    `gc.collect()` 
 
 ## 18단계. 메모리 절약 모드
 메모리 사용을 개선할 수 있는 구조 두 가지
@@ -75,3 +77,11 @@
 - +와 * 연산자를 지원하도록 Variable 확장
 - Mul class & def 추가
 - 매번 mul(), add()를 쓰는 대신 연산자를 사용할 수 있도록 함
+- class Variable 위에 mul, add 함수를 정의해주어야함
+
+## 21단계. 연산자 오버로드(2)
+- 다른 종류의 인스턴스 간에 연산이 가능하도록 수정
+- np.array와 Variable 의 연산 : as_variable 함수 적용
+- float 혹은 int와 연산: `def add` function에 as_array 코드 추가
+- 입력하는 인수의 순서 바뀔 경우에도 가능하도록 `Variable.__radd__`, `Variable.__rmul__` 에 각 연산함수 대입
+- 연산자 우선순위 지정: Variable 인스턴스의 연산 우선 순위를 ndarray 연산보다 높임
