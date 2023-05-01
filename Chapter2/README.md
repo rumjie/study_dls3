@@ -101,3 +101,23 @@
 - dezero directory, core_simple.py 구성
 - __init__.py : 모듈을 임포트할 때 가장 먼저 실행되는 파일
 - dezero 패키지에 속한 모듈을 임포트할 때 가장 먼저 호출됨
+
+## 24단계. 복잡한 함수의 미분
+- 최적화 문제에 사용되는 벤치마크 함수 예시: Rastrigin function, Ackley function, Sphere function, Rosenbrock funtion, Beale funtion, Goldstein-Price function
+- 복잡하게 연결된 계산 그래프를 올바르게 역전파 가능
+### Sphere 함수
+- $ z = x^{2}+y^{2} $
+### matyas 함수 (마차시 함수)
+- $ z=0.26(x^{2}+y^{2}) - 0.48xy $
+### Goldstein-Price 함수
+- Dezero에서는 쉽게 표현 가능
+
+## 칼럼: define-by-run
+- 딥러닝 프레임워크의 동작 방식 
+- 1. Define and Run
+    - 정적 계산 그래프
+    - 프레임워크는 계산 그래프의 정의 반환 (=컴파일)
+- 2. Define bu run
+    - 동적 계산 그래프 방식
+    - 데이터 흘려보내기와 계산 그래프 구축이 동시에 이루어짐
+    - dezero 방식 
