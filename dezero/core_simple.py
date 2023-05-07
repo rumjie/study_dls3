@@ -56,6 +56,34 @@ class Variable:
                 for y in f.outputs:
                     y().grad = None  # y는 약한참조
 
+    def cleargrad(self):
+        self.grad = None
+
+    @property  # shape 메서드를 인스턴스 변수처럼 사용
+    def shape(self):
+        return self.data.shape
+
+    @property
+    def ndim(self):  # 차원 수
+        return self.data.ndim
+
+    @property
+    def size(self):  # 원소 수
+        return self.data.size
+
+    @property
+    def dtype(self):  # 데이터 타입
+        return self.data.dtype
+
+    def __len__(self):
+        return len(self.data)
+
+    def __repr__(self):
+        if self.data is None:
+            return "variable(None)"
+        p = str(self.data).replace("\n", "\n" + "" * 9)
+        return "variable(" + p + ")"
+
 
 # 순전파만 필요한 경우를 위한 모드
 class Config:
