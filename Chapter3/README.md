@@ -17,5 +17,7 @@
 - `get_dot_graph` : Variable 클래스의 backward 메서드와 거의 같으나, 미분값을 전파하는게 아니라 DOT 언어로 기술한 문자열을 txt에 추가
 - generation 값으로 정렬하는 코드는 주석처리 (노드의 추적 순서는 중요하지 않음)
 - `plot_dot_graph` : 이미지 변환까지 한번에 수행
+    - `os.path.expanduser('~')`: 사용자의 홈 디렉토리를 뜻하는 ~를 절대 경로로 풀어줌
+    - `to_file`에 저장할 이미지 파일의 이름 지정
 
 - 이 챕터의 아쉬운 점: 페이지가 바뀔 때 indentation 표기에 대해 더 신경써줬으면..
