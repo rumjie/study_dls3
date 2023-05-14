@@ -63,3 +63,10 @@
 - 역전파를 계산할 때 연결이 만들어진다면 고차 미분을 자동으로 계산할 수 있음
 -  `gx.backward()` 호출 시 2차 미분이 이루어짐
 - 함수의 backward 메서드에서 Variable 인스턴스를 사용하면 계산의 연결이 만들어짐
+
+## 32단계. 고차 미분 (구현 편)
+- 새로운 Variable 클래스는 dezero/core.py에 구현
+- `backward`함수의 `self.grad`가 Variable 인스턴스를 담도록 수정
+- Add 클래스: 역전파 때 계산하는 것이 없으므로 수정 안함
+- Mul 클래스: Variable 인스턴스를 그대로 사용 
+- Sub, Div, Pow 또한 같은 방법으로 수정
