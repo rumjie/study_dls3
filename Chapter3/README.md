@@ -41,3 +41,19 @@
 - 초깃값이 정답에 충분히 가까우면 뉴턴 방법이 더 빨리 수렴
 - 2차 미분의 정보를 이용해 효율적인 탐색을 가능하게 함
 - dezero에서 2차 미분 자동으로 구할수 없으므로 수동으로 계산
+- $ y= x^4 - 2x^2 $ 의 2차 미분 구하기
+
+## 30단계. 고차미분 (준비 편)
+- dezero는 1차 미분까지만 자동 계산
+- 고차 미분을 자동으로 할 수 있도록 확장
+### 복습
+- Variable 인스턴스 변수
+    - init 메서드: `self.data`와 `self.grad` 는 각각 순전파 계산, 역전파 계산시 사용되며 ndarray를 저장
+- Function 클래스
+    - Variable 인스턴스 변수 data를 꺼내 리스트 xs로 모은 뒤 `forward(*xs)` 를 호출해 계산 수행
+    - Variable 과 Function 간 관계 생성
+    - Dezero의 함수는 모두 Function 클래스 상속
+- Variable 클래스의 역전파
+    - Variable 인스턴스 변수 grad를 리스트로 모음 (grad: ndarray 인스턴스 참조 중)
+    - `backward` 메서드에 ndarray 인스턴스가 담긴 리스트가 전달
+    - 출력 쪽에서 전파하는 미분값 gxs를 함수의 입력 변수의 grad로 설정
