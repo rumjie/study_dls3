@@ -78,3 +78,8 @@
 - `x.cleargrad()`를 추가해 미분값을 재설정해야 제대로 된 미분값을 구할 수 있음
 - step29에서 구현한 코드에 비교, backward 메서드를 두 번 실행해 자동으로 계산
 - 7회만에 최솟값에 도달
+
+## 34단계. sin 함수 고차 미분
+- 앞으로의 Dezero 함수는 dezero/functions.py 에 추가
+- 임포트 형식: `from dezero.functions import sin`
+- 새로운 dezero 함수 추가: 
