@@ -219,7 +219,7 @@ class Pow(Function):  # 밑이 x인 경우만 미분
 
     def backward(self, gy):
         # x = self.inputs[0].data
-        x = self.inputs  # step32
+        x = self.inputs[0]  # step32
         c = self.c
         gx = c * x ** (c - 1) * gy
         return gx
