@@ -82,4 +82,5 @@
 ## 34단계. sin 함수 고차 미분
 - 앞으로의 Dezero 함수는 dezero/functions.py 에 추가
 - 임포트 형식: `from dezero.functions import sin`
-- 새로운 dezero 함수 추가: 
+- 새로운 dezero 함수 추가: sin, cos
+- after extension: -7부터 7까지 균일하게 200등분한 배열을 입력
