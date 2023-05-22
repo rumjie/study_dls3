@@ -31,14 +31,17 @@ class Tanh(Function):
 
     def backward(self, gy):
         y = self.outputs[0]()
-        gx = gy * (1 - y * y)
+        gx = gy * (1 - y * y)  # 분수 함수의 미분 활용
         return gx
+
 
 def sin(x):
     return Sin()(x)
 
+
 def cos(x):
     return Cos()(x)
 
-def tanh(x)
+
+def tanh(x):
     return Tanh()(x)

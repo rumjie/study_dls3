@@ -16,7 +16,7 @@ x.name = "x"
 y.name = "y"
 y.backward(create_graph=True)
 
-iters = 0
+iters = 3
 
 for i in range(iters):
     gx = x.grad
@@ -27,4 +27,4 @@ for i in range(iters):
 # 그래프 그리기
 gx = x.grad
 gx.name = "gx" + str(iters + 1)
-plot_dot_graph(gx, verbose=False, to_file="tanh.png")
+plot_dot_graph(gx, verbose=False, to_file="./steps/tanh_iter3.png")
