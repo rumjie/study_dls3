@@ -84,3 +84,9 @@
 - 임포트 형식: `from dezero.functions import sin`
 - 새로운 dezero 함수 추가: sin, cos
 - after extension: -7부터 7까지 균일하게 200등분한 배열을 입력
+
+## 35단계. 고차 미분 계산 그래프
+- tanh 함수 추가: 입력을 -1 ~ 1 사이의 값으로 변환
+- `dezero/functions.py`에 tanh 함수 구현
+- for 문에서 반복해서 역전파해서 고차 미분 계산
+- 반복 횟수는 iters 값으로 지정
