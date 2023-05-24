@@ -2,6 +2,7 @@
 import numpy as np
 import contextlib
 import weakref
+import dezero
 
 
 class Variable:
@@ -58,6 +59,18 @@ class Variable:
             if not retain_grad:
                 for y in f.outputs:
                     y().grad = None  # y는 약한참조
+
+    def reshape(self, *shape):  # step38
+        if len(shape) == 1 and isinstance(shape[0], (tuple, list)):
+            shape = shape[0]
+        return dezero.functions.reshape(self, shape)
+
+    def transpose(self):  # step38
+        return dezero.functions.transpose(self)
+
+    @property  # 인스턴스 변수로 사용할 수 있게 해주는 데코레이터
+    def T(self):
+        return dezero.functions.transpose(self)
 
     def cleargrad(self):
         self.grad = None
