@@ -14,3 +14,5 @@ t = x + c
 y = F.sum(t)
 
 y.backward(retain_grad=True)
+
+print(y.grad, t.grad, x.grad, c.grad)
