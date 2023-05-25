@@ -1,5 +1,6 @@
 import numpy as np
 from dezero.core import Function, as_variable
+from dezero import utils
 
 
 class Sin(Function):
@@ -80,3 +81,24 @@ class Transpose(Function):
 # 구현
 def transpose(x):
     return Transpose()(x)
+
+
+class Sum(Function):  # step39
+    def __init__(self, axis, keepdims):
+        self.axis = axis
+        self.keepdims = keepdims
+
+    def forward(self, x):
+        self.x_shape = x.shape
+        y = x.sum(axis=self.axis, keepdims=self.keepdims)
+        return y
+
+    def backward(self, gy):
+        gy = utils.reshape_sum_backward(gy, self.x_shape, self.axis, self.keepdims)
+        gx = broadcast_to(gy, self.x_shape)  # 다음 단계에서 구현
+        return gx
+
+
+# 구현
+def sum(x, axis=None, keepdims=False):
+    return Sum(axis, keepdims)(x)
