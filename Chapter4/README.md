@@ -22,4 +22,9 @@
 - 넘파이의 `np.sum`은 합계를 구할 때 축 지정 가능
 - axis=0이면 세로 방향 합, axis=1이면 가로 방향 합을 구함
 - `keepdims=True`로 지정하면 차원의 수를 유지
-- 
+
+## 40단계. 브로드캐스트 함수
+- broadcast_to 함수 구현 및 dezero에서 넘파이처럼 브로드캐스트하도록 수정
+- 원소 복사가 일어나면 기울기를 합하면 됨
+- `np.broadcast_to(x, shape)` : ndarray의 인스턴스인 x의 원소를 복제, shape 인수로 지정한 형상이 되도록 함
+- 역전파에서는 입력 x 와 형상이 같아지도록 broadcast_to 와 sum_to 함수가 상호 의존적
