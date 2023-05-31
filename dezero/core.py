@@ -3,6 +3,7 @@ import numpy as np
 import contextlib
 import weakref
 import dezero
+import functions
 
 
 class Variable:
@@ -168,23 +169,32 @@ class Function:
 # Add class
 class Add(Function):  # 변수를 직접 받아 변수로 돌려줌
     def forward(self, x0, x1):
+        self.x0_shape, self.x1_shape = x0.shape, x1.shape  # step40
         y = x0 + x1
         return y
 
     def backward(self, gy):
-        return gy, gy
+        gx0, gx1 = gy, gy
+        if self.x0_shape != self.x1_shape:
+            gx0 = dezero.functions.sum_to(gx0, self.x0_shape)
+            gx1 = dezero.functions.sum_to(gx1, self.x1_shape)
+        return gx0, gx1
 
 
 # Mul class
 class Mul(Function):
     def forward(self, x0, x1):
+        self.x0_shape, self.x1_shape = x0.shape, x1.shape  # step40
         y = x0 * x1
         return y
 
     def backward(self, gy):
         # x0, x1 = self.inputs[0].data, self.inputs[1].data
         x0, x1 = self.inputs
-        return gy * x1, gy * x0
+        if self.x0_shape != self.x1_shape:
+            gx0 = dezero.functions.sum_to(gx0, self.x0_shape)
+            gx1 = dezero.functions.sum_to(gx1, self.x1_shape)
+        return gx0 * x1, gx1 * x0
 
 
 # Neg class
@@ -199,23 +209,31 @@ class Neg(Function):  # function class 상속, 원하는 함수 클래스 구현
 # Sub class
 class Sub(Function):
     def forward(self, x0, x1):
+        self.x0_shape, self.x1_shape = x0.shape, x1.shape  # step40
         y = x0 - x1
         return y
 
     def backward(self, gy):
         x0, x1 = self.inputs  # step32
+        if self.x0_shape != self.x1_shape:
+            gx0 = dezero.functions.sum_to(gx0, self.x0_shape)
+            gx1 = dezero.functions.sum_to(gx1, self.x1_shape)
         return gy, -gy
 
 
 # Div class
 class Div(Function):
     def forawrd(self, x0, x1):
+        self.x0_shape, self.x1_shape = x0.shape, x1.shape
         y = 0 / x1
         return y
 
     def backward(self, gy):
         # x0, x1 = self.inputs[0].data, self.inputs[1].data
         x0, x1 = self.inputs  # step32
+        if self.x0_shape != self.x1_shape:
+            gx0 = dezero.functions.sum_to(gx0, self.x0_shape)
+            gx1 = dezero.functions.sum_to(gx1, self.x1_shape)
         gx0 = gy / x1
         gx1 = gy * (-x0 / x1**2)
         return gx0, gx1
