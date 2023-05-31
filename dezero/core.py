@@ -3,7 +3,6 @@ import numpy as np
 import contextlib
 import weakref
 import dezero
-import functions
 
 
 class Variable:

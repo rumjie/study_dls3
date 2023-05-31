@@ -144,3 +144,17 @@ def sum_to(x, shape):
     if x.shape == shape:
         return as_variable(x)
     return SumTo(shape)(x)
+
+
+class MatMul(Function):
+    def forward(self, x, W):
+        y = x.dot(W)
+        return y
+
+    def backward(self, gy):
+        ##
+        return gx, gW
+
+
+def matmul(x, W):
+    return MatMul()(x, W)
