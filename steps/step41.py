@@ -15,3 +15,4 @@ y.backward()
 
 print(x.grad.shape)
 print(W.grad.shape)
+# result: (2,3), (3,4)

@@ -152,7 +152,9 @@ class MatMul(Function):
         return y
 
     def backward(self, gy):
-        ##
+        x, W = self.inputs
+        gx = matmul(gy, W.T)
+        gW = matmul(x.T, gy)
         return gx, gW
 
 
