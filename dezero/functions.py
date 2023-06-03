@@ -160,3 +160,18 @@ class MatMul(Function):
 
 def matmul(x, W):
     return MatMul()(x, W)
+
+
+def linear_simple(x, W, b=None):  # step43
+    t = matmul(x, W)
+    if b is None:
+        return t
+    y = t + b
+    t.data = None  # t data delete
+    return y
+
+
+def sigmoid_simple(x):
+    x = as_variable(x)
+    y = 1 / (1 + exp(-x))
+    return y
