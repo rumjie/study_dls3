@@ -16,6 +16,7 @@ else:
     from dezero.core import as_array
     from dezero.core import as_variable
     from dezero.core import setup_variable
+    from dezero.core import Parameter
 setup_variable()
 # 연산자 오버로드가 이루어진 상태에서 Variable을 사용할 수 있음
 # 간소화된 import 사용 가능

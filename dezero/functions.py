@@ -173,5 +173,5 @@ def linear_simple(x, W, b=None):  # step43
 
 def sigmoid_simple(x):
     x = as_variable(x)
-    y = 1 / (1 + exp(-x))
+    y = 1 / (1 + np.exp(-x))  # 책에선 그냥 exp
     return y
