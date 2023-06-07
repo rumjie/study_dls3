@@ -175,3 +175,18 @@ def sigmoid_simple(x):
     x = as_variable(x)
     y = 1 / (1 + np.exp(-x))  # 책에선 그냥 exp
     return y
+
+
+def linear(x, W, b=None):  # add by rumjie
+    t = matmul(x, W)
+    if b is None:
+        return t
+    y = t + b
+    t.data = None  # t data delete
+    return y
+
+
+def sigmoid(x):
+    x = as_variable(x)
+    y = 1 / (1 + np.exp(-x))  # add by rumjie
+    return y
