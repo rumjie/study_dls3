@@ -69,3 +69,18 @@
 - `Model` 클래스는 Layer를 상속
 - 범용적인 신경망 구성을 위해 MLP 클래스 구현
 - 인스턴스 변수 설정을 `setattr` 함수로 하고 있음 
+
+## 46단계. Optimizer로 수행하는 매개변수 갱신
+- 경사하강법 외 다양한 최적화 기법이 있음
+- 매개변수 갱신 작업 모듈화
+- `class Optimizer`
+    - `targer`, `hooks` 두 개 인스턴스 변수 초기화
+    - `setup`: 매개변수를 갖는 클래스를 인스턴스 변수인 target으로 설정
+    - `update`: 모든 매개변수 갱신, grad가 None 인 매개변수는 갱신 건너뜀
+    - 매개변수 갱신에 앞서 전체 매개변수를 전처리 
+- `class SGD`
+    - Optimizer 클래스 상속
+    - `__init__` 메서드에서 학습률 받아 초기화, 
+    - `update_one` 메서드에서 매개변수 갱신 코드 구현
+- MLP 클래스를 사용해 모댈 생성, SGD 클래스로 매개변수 갱신
+- 기울기를 이용한 최적화 기법: Momentum, AdaGrad, AdaDelta, Adam
