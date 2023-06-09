@@ -190,3 +190,25 @@ def sigmoid(x):
     x = as_variable(x)
     y = 1 / (1 + np.exp(-x))  # add by rumjie
     return y
+
+
+def softmax_simple(x, axis=1):
+    x = as_variable(x)
+    y = np.exp(x)
+    sum_y = sum(y, axis=axis, keepdims=True)
+    return y / sum_y
+
+
+# 더 나은 구현 방식----
+######
+
+
+def softmax_cross_entropy_simple(x, t):
+    x, y = as_variable(x), as_variable(t)
+    N = x.shape[0]
+
+    p = softmax_simple(x)
+    p = np.clip(p, 1e-15, 1.0)  # log(0) 방지
+    log_p = np.log(p)  # ..dezero 함수?
+    tlog_p = log_p[np.arange(N), t.data]
+    y = -1 * sum(tlog_p) / N
