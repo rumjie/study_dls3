@@ -30,6 +30,6 @@ for i in range(max_iter):
     model.cleargrad()
     loss.backward()
 
-    optimizer.update()
+    optimizer.update()  # 매개변수 갱신
     if i % 1000 == 0:
         print(loss)
