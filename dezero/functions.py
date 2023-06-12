@@ -36,6 +36,17 @@ class Tanh(Function):
         return gx
 
 
+class Exp(Function):  # add by rumjie
+    def forward(self, x):
+        y = np.exp(x)
+        return y
+
+    def backward(self, gy):
+        y = self.outputs[0]()
+        gx = gy * y
+        return gx
+
+
 def sin(x):
     return Sin()(x)
 
@@ -46,6 +57,10 @@ def cos(x):
 
 def tanh(x):
     return Tanh()(x)
+
+
+def exp(x):
+    return Exp()(x)
 
 
 class Reshape(Function):
@@ -173,7 +188,7 @@ def linear_simple(x, W, b=None):  # step43
 
 def sigmoid_simple(x):
     x = as_variable(x)
-    y = 1 / (1 + np.exp(-x))  # 책에선 그냥 exp
+    y = 1 / (1 + exp(-x))  # 책에선 그냥 exp
     return y
 
 
@@ -186,15 +201,24 @@ def linear(x, W, b=None):  # add by rumjie
     return y
 
 
+class Sigmoid(Function):  # add by rumjie
+    def forward(self, x):
+        y = np.tanh(x * 0.5) * 0.5 + 0.5  # better implementation
+        return y
+
+    def backward(self, gy):
+        y = self.outputs[0]()
+        gx = gy * y * (1 - y)
+        return gx
+
+
 def sigmoid(x):
-    x = as_variable(x)
-    y = 1 / (1 + np.exp(-x))  # add by rumjie
-    return y
+    return Sigmoid()(x)
 
 
 def softmax_simple(x, axis=1):
     x = as_variable(x)
-    y = np.exp(x)
+    y = exp(x)
     sum_y = sum(y, axis=axis, keepdims=True)
     return y / sum_y
 
