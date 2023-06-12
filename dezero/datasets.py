@@ -13,14 +13,14 @@ import matplotlib.pyplot as plt
 class Dataset:
     def __init__(self, train=True, transform=None, target_transform=None):
         self.train = train
-        self.transform = transform
+        self.transform = transform  # preprocessing
         self.target_transform = target_transform
         if self.transform is None:
             self.transofrm = lambda x: x
         if self.target_transform is None:
             self.target_transform = lambda x: x
 
-        self.data = None
+        self.data = None  # step 49
         self.label = None
         self.prepare()
 
