@@ -1,5 +1,5 @@
 import numpy as np
-from dezero.core import Function, as_variable
+from dezero.core import Function, as_variable, Variable, as_array
 from dezero import utils
 
 
@@ -236,3 +236,11 @@ def softmax_cross_entropy_simple(x, t):
     log_p = np.log(p)  # ..dezero 함수?
     tlog_p = log_p[np.arange(N), t.data]
     y = -1 * sum(tlog_p) / N
+
+
+def accuracy(y, t):
+    y, t = as_variable(y), as_variable(t)
+    pred = y.data.argmax(axis=1).reshape(t.shape)
+    result = pred == t.data
+    acc = result.mean()
+    return Variable(as_array(acc))
