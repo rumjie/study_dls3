@@ -122,3 +122,4 @@
     - dataset (Dataset 인터페이스를 만족하는 인스턴스), batch size, shuffle (epoch 별로 데이터셋을 뒤섞을지 여부)
 - accuracy 함수 구현
     - y(신경망의 예측 결과), t(정답 데이터)를 받아서 정답률 계산
+- 스파이럴 데이터셋 학습    
