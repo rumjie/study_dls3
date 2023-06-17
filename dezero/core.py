@@ -4,13 +4,20 @@ import contextlib
 import weakref
 import dezero
 
+try:
+    import cupy
+
+    array_types = (np.ndarray, cupy.ndarray)
+except ImportError:
+    array_types = np.ndaray
+
 
 class Variable:
     __array_priority__ = 200  # 연산자 우선순위
 
     def __init__(self, data, name=None):
         if data is not None:  # ndarray가 아닐 경우
-            if not isinstance(data, np.ndarray):
+            if not isinstance(data, array_types):  # step52
                 raise TypeError("{}는 지원하지 않습니다.".format(type(data)))
 
         self.data = data
@@ -26,6 +33,7 @@ class Variable:
     def backward(self, retain_grad=False, create_graph=False):
         if self.grad is None:
             # self.grad = np.ones_like(self.data)  # core_simple.py 버전
+            xp = dezero.cuda.get_array_modeul(self.data)  # step52
             self.grad = Variable(np.ones_like(self.data))
 
         funcs = []  # list
@@ -100,6 +108,14 @@ class Variable:
         p = str(self.data).replace("\n", "\n" + "" * 9)
         return "variable(" + p + ")"
 
+    def to_cpu(self):
+        if self.data is not None:
+            self.data = dezero.cuda.as_numpy(self.data)
+
+    def to_gpu(self):
+        if self.data is not None:
+            self.data = dezero.cuda.as_cupy(self.data)
+
 
 # 순전파만 필요한 경우를 위한 모드
 class Config:
@@ -122,9 +138,9 @@ def no_grad():
 
 
 # array로 변환
-def as_array(x):  # 0차원의 nparray를 제곱하면 float이 되는 현상 방지
+def as_array(x, array_module=np):  # 0차원의 nparray를 제곱하면 float이 되는 현상 방지
     if np.isscalar(x):
-        return np.array(x)
+        return array_module.array(x)
     return x
 
 
@@ -257,12 +273,12 @@ class Pow(Function):  # 밑이 x인 경우만 미분
 
 # function
 def add(x0, x1):
-    x1 = as_array(x1)
+    x1 = as_array(x1, dezero.cuda.get_array_module(x0.data))
     return Add()(x0, x1)
 
 
 def mul(x0, x1):
-    x1 = as_array(x1)
+    x1 = as_array(x1, dezero.cuda.get_array_module(x0.data))
     return Mul()(x0, x1)
 
 
@@ -271,22 +287,22 @@ def neg(x):  # 파이썬 함수로 사용
 
 
 def sub(x0, x1):
-    x1 = as_array(x1)
+    x1 = as_array(x1, dezero.cuda.get_array_module(x0.data))
     return Sub()(x0, x1)
 
 
 def rsub(x0, x1):  # 2-x 와 같은 연산을 수행하기 위함
-    x1 = as_array(x1)
+    x1 = as_array(x1, dezero.cuda.get_array_module(x0.data))
     return Sub()(x1, x0)  # 좌항과 우항의 순서를 바꾸면 결과가 달라지기 때문
 
 
 def div(x0, x1):
-    x1 = as_array(x1)
+    x1 = as_array(x1, dezero.cuda.get_array_module(x0.data))
     return Div()(x0, x1)
 
 
 def rdiv(x0, x1):
-    x1 = as_array(x1)
+    x1 = as_array(x1, dezero.cuda.get_array_module(x0.data))
     return Div(x1, x0)  # 순서 바꿔 연산
 
 
