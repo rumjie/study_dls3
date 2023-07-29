@@ -120,6 +120,7 @@ class Variable:
 # 순전파만 필요한 경우를 위한 모드
 class Config:
     enable_backprop = True  # 역전파 활성 모드
+    train = True
 
 
 @contextlib.contextmanager  # 문맥을 판단하는 함수
@@ -130,6 +131,10 @@ def using_config(name, value):
         yield
     finally:
         setattr(Config, name, old_value)
+
+
+def test_mode():
+    return using_config("train", False)
 
 
 # 순전파 코드만 실행할 때의 편의 함수
