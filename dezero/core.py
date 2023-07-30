@@ -134,7 +134,7 @@ def using_config(name, value):
 
 
 def test_mode():
-    return using_config("train", False)
+    return using_config("train", False)  # test_mode 형태로 import 가능
 
 
 # 순전파 코드만 실행할 때의 편의 함수
