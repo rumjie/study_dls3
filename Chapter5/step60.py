@@ -11,39 +11,41 @@ import dezero.layers as L
 from PIL import Image
 import dezero
 from dezero import Model
-from dezero.models import VGG16
+from dezero import SeqDataLoader
+
+max_epoch = 100
+batch_size = 30
+hidden_size = 100
+bptt_length = 30
+train_set = dezero.datasets.SinCurve(train=True)
+
+dataloader = SeqDataLoader(train_set, batch_size=batch_size)
+seqlen = len(train_set)
 
 
-class SimpleRNN(Model):
+class BetterRNN(Model):
     def __init__(self, hidden_size, out_size):
         super().__init__()
-        self.rnn = L.RNN(hidden_size)
+        self.rnn = L.LSTM(hidden_size, out_size)
         self.fc = L.Linear(out_size)
 
     def reset_state(self):
         self.rnn.reset_state()
 
     def forward(self, x):
-        h = self.rnn(x)
-        y = self.fc(h)
+        y = self.rnn(x)
+        y = self.fc(y)
         return y
 
 
-max_epoch = 100
-hidden_size = 100
-bptt_length = 30
-train_set = dezero.datasets.SinCurve(train=True)
-seqlen = len(train_set)
-
-model = SimpleRNN(hidden_size, 1)
+model = BetterRNN(hidden_size, 1)
 optimizer = dezero.optimizers.Adam().setup(model)
 
 # start train
 for epoch in range(max_epoch):
     model.reset_state()
     loss, count = 0, 0
-    for x, t in train_set:
-        x = x.reshape(1, 1)
+    for x, t in dataloader:
         y = model(x)
         loss += F.mean_squared_error(y, t)
         count += 1
